@@ -1,6 +1,12 @@
 const express = require("express");
+
 const app = express();
+
+const bcrypt = require('bcrypt');
+
 const Usuario = require("../models/usuario");
+
+
 
 app.get("/usuario", function(req, res) {
   res.json("getUsuario LOCAL");
@@ -12,7 +18,7 @@ app.post("/usuario", function(req, res) {
   let usuario = new Usuario({
     nombre: body.nombre,
     email: body.email,
-    password: body.password,
+    password: bcrypt.hashSync(body.password,10),
     role: body.role
   });
 
@@ -24,6 +30,8 @@ app.post("/usuario", function(req, res) {
       });
     }
 
+    //usuarioDB.password=null;
+
     res.json({
       ok: true,
       usuario: usuarioDB
@@ -33,6 +41,15 @@ app.post("/usuario", function(req, res) {
 
 app.put("/usuario/:id", function(req, res) {
   let id = req.params.id;
+  let body= req.body;
+
+
+  Usuario.findById( id, (err, usuarioDB)=>{
+
+    
+
+  });
+
   res.json({
     id
   });
